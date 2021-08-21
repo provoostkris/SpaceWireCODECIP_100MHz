@@ -6,6 +6,7 @@
 library ieee;
 use     ieee.std_logic_1164.all;
 use     ieee.numeric_std.all;
+use     ieee.std_logic_misc.all;
 
 library work;
 use     work.SpaceWireCODECIPPackage.all;
@@ -71,6 +72,49 @@ clock           <= clk;
 transmitClock   <= clk;
 receiveClock    <= clk;
 reset           <= rst;
+
+--! provide dummy data
+  process(transmitClock, reset)
+    variable v_cnt  : unsigned(7 downto 0);
+  begin
+    if(reset = '1') then
+      v_cnt                     := ( others => '0');
+      transmitFIFOWriteEnable   <= '0';
+      transmitFIFODataIn        <= ( others => '0');
+    elsif(transmitClock'event and transmitClock = '1') then
+      v_cnt                   := v_cnt + 1;
+      if and_reduce(std_logic_vector(v_cnt)) = '1' then
+        transmitFIFOWriteEnable <= '1';
+        transmitFIFODataIn      <= std_logic_vector( unsigned(transmitFIFODataIn) + x"07");
+        assert false report " <TB> TX data" severity note;
+      else 
+        transmitFIFOWriteEnable <= '0';
+      end if;
+    end if;
+  end process;
+
+-- consume rx 
+receiveFIFOReadEnable     <= '1';
+
+--no time code
+tickIn          <= '0';
+timeIn          <= ( others => '0');
+controlFlagsIn  <= ( others => '0');
+
+-- start enabled
+linkStart   <= '1';
+linkDisable <= '0';
+autoStart   <= '1';
+
+-- configuration
+statisticalInformationClear <= '0';
+transmitClockDivideValue    <= std_logic_vector(to_unsigned(1,transmitClockDivideValue'length));
+
+
+--loop
+spaceWireDataIn     <= spaceWireDataOut;
+spaceWireStrobeIn   <= spaceWireStrobeOut;
+
 
 --! dut
 dut: entity work.SpaceWireCODECIP(Behavioral)

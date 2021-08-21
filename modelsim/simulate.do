@@ -25,10 +25,16 @@ echo "adding waves"
 
   delete wave /*
 
-  add wave                 -group "dut i/o"   -ports            /tb_space_wire_codec/dut/*
-  add wave    -expand      -group "dut sig"   -internal         /tb_space_wire_codec/dut/*
+  add wave  -expand -group "dut i/o"   -ports            /tb_space_wire_codec/dut/*
+  add wave          -group "dut sig"   -internal         /tb_space_wire_codec/dut/*
+    
+  add wave          -group "comp i/o"  -ports            /tb_space_wire_codec/dut/spacewirelinkinterface/*
+  add wave          -group "comp i/o"  -internal         /tb_space_wire_codec/dut/spacewirelinkinterface/*
+  
 
 
 echo "view wave forms"
   view wave
-  run 10 us
+  run 50 us
+  wave zoomfull
+  
