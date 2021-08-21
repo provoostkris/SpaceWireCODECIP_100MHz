@@ -19,9 +19,13 @@ end entity tb_space_wire_codec;
 
 architecture rtl of tb_space_wire_codec is
 
-constant c_clk_per  : time      := 20 ns ;
+constant c_clk_per     : time      := 10 ns ;
+constant c_clk_tx_per  : time      := 10 ns ;
+constant c_clk_rx_per  : time      := 10 ns ;
 
 signal clk          : std_ulogic :='0';
+signal clk_tx       : std_ulogic :='0';
+signal clk_rx       : std_ulogic :='0';
 signal rst          : std_ulogic :='0';
 
 --! DUT ports
@@ -64,13 +68,15 @@ signal statisticalInformation      : bit32X8Array;
 
 begin
 
-	clk            <= not clk  after c_clk_per/2;
-	rst            <= '1', '0' after c_clk_per *  3 ;
+	clk            <= not clk     after c_clk_per/2;
+	clk_rx         <= not clk_rx  after c_clk_tx_per/2;
+	clk_tx         <= not clk_tx  after c_clk_rx_per/2;
+	rst            <= '1', '0'    after c_clk_per *  3 ;
 
 -- some initial wiring
 clock           <= clk;
-transmitClock   <= clk;
-receiveClock    <= clk;
+transmitClock   <= clk_tx;
+receiveClock    <= clk_rx;
 reset           <= rst;
 
 --! provide dummy data

@@ -29,7 +29,7 @@ echo "adding waves"
   add wave          -group "dut sig"   -internal         /tb_space_wire_codec/dut/*
     
   add wave          -group "comp i/o"  -ports            /tb_space_wire_codec/dut/spacewirelinkinterface/*
-  add wave          -group "comp i/o"  -internal         /tb_space_wire_codec/dut/spacewirelinkinterface/*
+  add wave          -group "comp sig"  -internal         /tb_space_wire_codec/dut/spacewirelinkinterface/*
   
 
 
@@ -38,3 +38,17 @@ echo "view wave forms"
   run 50 us
   wave zoomfull
   
+  configure wave -namecolwidth  250
+  configure wave -valuecolwidth 120
+  configure wave -justifyvalue right
+  configure wave -signalnamewidth 1
+  configure wave -snapdistance 10
+  configure wave -datasetprefix 0
+  configure wave -rowmargin 4
+  configure wave -childrowmargin 2
+  configure wave -gridoffset 0
+  configure wave -gridperiod 1
+  configure wave -griddelta 40
+  configure wave -timeline 1
+  configure wave -timelineunits us
+  update
