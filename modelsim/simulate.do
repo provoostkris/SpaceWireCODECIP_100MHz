@@ -37,7 +37,7 @@ echo "adding waves"
 
 echo "view wave forms"
   view wave
-  run 50 us
+  run 150 us
   wave zoomfull
 
   configure wave -namecolwidth  250

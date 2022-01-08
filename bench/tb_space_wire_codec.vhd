@@ -19,9 +19,9 @@ end entity tb_space_wire_codec;
 
 architecture rtl of tb_space_wire_codec is
 
-constant c_clk_per     : time      := 10 ns ;
-constant c_clk_tx_per  : time      := 10 ns ;
-constant c_clk_rx_per  : time      := 10 ns ;
+constant c_clk_per     : time      := 40 ns ;
+constant c_clk_tx_per  : time      := 20 ns ;
+constant c_clk_rx_per  : time      := 20 ns ;
 
 signal clk          : std_ulogic :='0';
 signal clk_tx       : std_ulogic :='0';
